@@ -250,14 +250,11 @@ export const ToolsSection: React.FC = () => {
               className="p-5 rounded-2xl bg-[#141414] border border-white/10 hover:border-[#C5FF45]/50 transition-all duration-300 flex flex-col justify-between group cursor-pointer hover:bg-[#181818]"
             >
               <div>
-                {/* Tool Icon + Proficiency Badge */}
-                <div className="flex items-center justify-between gap-3 mb-4">
+                {/* Tool Icon */}
+                <div className="mb-4">
                   <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     {renderToolIcon(tool.icon, tool.color)}
                   </div>
-                  <span className="font-mono-code text-[10px] text-[#C5FF45] bg-[#C5FF45]/10 px-2.5 py-1 rounded-full border border-[#C5FF45]/20">
-                    {tool.experience}
-                  </span>
                 </div>
 
                 {/* Name */}
@@ -280,7 +277,7 @@ export const ToolsSection: React.FC = () => {
             <span className="w-2.5 h-2.5 rounded-full bg-[#C5FF45] animate-pulse-subtle" />
             <span className="text-[#F5F3EF] font-bold">
               {selectedTool
-                ? `ACTIVE INSPECTION: ${selectedTool.name.toUpperCase()} • ${selectedTool.experience.toUpperCase()}`
+                ? `ACTIVE INSPECTION: ${selectedTool.name.toUpperCase()}`
                 : 'ZERO CODE-DESIGN HANDOFF FRICTION'}
             </span>
           </div>

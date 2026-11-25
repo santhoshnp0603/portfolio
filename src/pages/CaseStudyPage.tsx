@@ -11,12 +11,12 @@ import {
   Sparkles,
   Layers,
   X,
-  Maximize2,
   Quote,
 } from 'lucide-react';
 import { getProjectBySlug, allProjects } from '../data/projectsData';
 import type { GalleryItem } from '../data/projectsData';
 import { ProjectMockup } from '../components/ProjectMockup';
+import { CloserLookShowcase } from '../components/CloserLookShowcase';
 import { soundFx } from '../utils/sound';
 
 export const CaseStudyPage: React.FC = () => {
@@ -64,6 +64,8 @@ export const CaseStudyPage: React.FC = () => {
   }, [project, navigate]);
 
   if (!project) return null;
+
+  const isMobileProject = project.platformType === 'mobile';
 
   // Previous and Next project calculation
   const currentIndex = allProjects.findIndex((p) => p.id === project.id || p.slug === project.slug);
@@ -260,19 +262,56 @@ export const CaseStudyPage: React.FC = () => {
             {project.heroHeadline}
           </motion.p>
 
-          {/* Visual Dominant Showcase Banner */}
+          {/* Visual Dominant Showcase Banner (360x800 for Mobile Projects vs 1440x800 for Web Projects) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative rounded-3xl overflow-hidden border border-white/15 bg-[#121212] shadow-[0_20px_80px_rgba(0,0,0,0.8)] aspect-[16/10] sm:aspect-[16/9] max-h-[640px] flex items-center justify-center group"
+            className="flex items-center justify-center w-full"
           >
-            <div className="w-full h-full">
-              <ProjectMockup type={project.mockupType} accentColor={project.accentColor} />
-            </div>
-
-            {/* Subtle Gradient Vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#101010]/60 via-transparent to-transparent pointer-events-none" />
+            {isMobileProject ? (
+              // 360 x 800 Vertical Rectangle Mobile Phone Frame
+              <div className="relative aspect-mobile-viewport max-w-[360px] h-[540px] sm:h-[620px] rounded-[36px] border-4 border-[#252525] bg-[#121212] shadow-[0_25px_90px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col justify-between p-3.5 group">
+                {/* Mobile Status Bar */}
+                <div className="flex items-center justify-between px-2 pt-1 pb-2 font-mono-code text-[10px] text-[#8E8E93] shrink-0">
+                  <span className="font-bold text-[#F5F3EF]">9:41</span>
+                  <div className="w-16 h-3.5 rounded-full bg-black border border-white/10 flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C5FF45]" />
+                  </div>
+                  <span className="text-[10px] text-[#C5FF45] font-bold">360 × 800</span>
+                </div>
+                {/* App Screen */}
+                <div className="w-full flex-grow overflow-hidden rounded-2xl bg-[#0B0C0E]">
+                  <ProjectMockup type={project.mockupType} accentColor={project.accentColor} />
+                </div>
+                {/* Home Indicator */}
+                <div className="w-20 h-1 bg-white/40 rounded-full mx-auto mt-2" />
+              </div>
+            ) : (
+              // 1440 x 800 Horizontal Rectangle Desktop Web Frame
+              <div className="relative aspect-web-viewport max-h-[640px] w-full rounded-3xl overflow-hidden border border-white/15 bg-[#121212] shadow-[0_20px_80px_rgba(0,0,0,0.8)] flex flex-col group">
+                {/* Desktop Browser Window Header */}
+                <div className="px-4 py-2.5 bg-[#161616] border-b border-white/10 flex items-center justify-between font-mono-code text-xs text-[#8E8E93] shrink-0">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
+                    <span className="ml-2 text-[11px] text-[#8E8E93] hidden sm:inline">
+                      https://{project.slug}.cloud.console
+                    </span>
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded bg-[#202020] border border-white/10 text-[10px] text-[#38BDF8] font-bold">
+                    1440 × 800 [WEB VIEW]
+                  </span>
+                </div>
+                {/* Web Screen */}
+                <div className="w-full flex-grow overflow-hidden bg-[#0C0C0C]">
+                  <ProjectMockup type={project.mockupType} accentColor={project.accentColor} />
+                </div>
+                {/* Subtle Gradient Vignette */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101010]/50 via-transparent to-transparent pointer-events-none" />
+              </div>
+            )}
           </motion.div>
         </div>
       </header>
@@ -649,72 +688,28 @@ export const CaseStudyPage: React.FC = () => {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 07: PROJECT GALLERY / IMAGES ("A CLOSER LOOK")
           ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 lg:py-28 bg-[#101010] border-b border-white/10">
+      <section className="py-20 lg:py-28 bg-[#0A0A0A] border-b border-white/10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-16">
+          <div className="mb-8">
             <div className="flex items-center gap-2 font-mono-code text-xs text-[#C5FF45] mb-3">
               <span>07 //</span>
               <span>VISUAL SHOWCASE</span>
             </div>
-            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-[#F5F3EF] tracking-tight">
+            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-[#F5F5F5] tracking-tight">
               A CLOSER LOOK
             </h2>
-            <p className="font-sans-main text-base sm:text-lg text-[#8E8E93] max-w-2xl mt-3">
-              Interactive high-fidelity screens, atomic design systems, and responsive viewport states. Click any frame to inspect in full-resolution lightbox.
+            <p className="font-sans-main text-base sm:text-lg text-[#999999] max-w-3xl mt-3">
+              Dynamic three-layer rolling portfolio showcase. Background strips glide in opposite directions while the central device automatically adapts between desktop web and mobile app interfaces.
             </p>
           </div>
-
-          {/* Asymmetric Gallery Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {project.gallery.map((item, idx) => {
-              const isFull = item.type === 'full-width';
-              const colSpan = isFull ? 'lg:col-span-12' : 'lg:col-span-6';
-
-              return (
-                <div
-                  key={item.id || idx}
-                  className={`${colSpan} group cursor-pointer`}
-                  onClick={() => {
-                    soundFx.playClick();
-                    setActiveLightbox(item);
-                  }}
-                >
-                  <div className="relative rounded-3xl bg-[#141414] border border-white/10 overflow-hidden transition-all duration-500 hover:border-[#C5FF45]/60 hover:shadow-[0_0_50px_rgba(197,255,69,0.12)]">
-                    {/* Visual Viewport */}
-                    <div className="relative overflow-hidden bg-[#0C0C0C] aspect-[16/10] min-h-[300px] flex items-center justify-center">
-                      <div className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.03]">
-                        <ProjectMockup type={item.mockupKind} accentColor={project.accentColor} />
-                      </div>
-
-                      {/* Click to expand lightbox hover badge */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                        <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#C5FF45] text-[#101010] font-display font-bold text-xs uppercase tracking-wider shadow-2xl">
-                          <Maximize2 className="w-4 h-4" />
-                          <span>EXPAND IN LIGHTBOX</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Gallery Caption Bar */}
-                    <div className="p-6 border-t border-white/10 bg-[#141414]">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-display font-bold text-lg text-[#F5F3EF] group-hover:text-[#C5FF45] transition-colors">
-                          {item.title}
-                        </h4>
-                        <span className="font-mono-code text-[11px] text-[#8E8E93] uppercase">
-                          [{item.type}]
-                        </span>
-                      </div>
-                      <p className="font-sans-main text-xs sm:text-sm text-[#8E8E93] leading-relaxed">
-                        {item.caption}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
+
+        {/* 3-Layer Rolling Showcase with Central Auto-Switching Device */}
+        <CloserLookShowcase
+          key={project.id}
+          currentProject={project}
+          onInspectItem={(item) => setActiveLightbox(item)}
+        />
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
@@ -933,7 +928,7 @@ export const CaseStudyPage: React.FC = () => {
       </footer>
 
       {/* ─────────────────────────────────────────────────────────────
-          LIGHTBOX MODAL FOR GALLERY IMAGES
+          LIGHTBOX MODAL FOR GALLERY IMAGES (360x800 Mobile vs 1440x800 Web)
           ───────────────────────────────────────────────────────────── */}
       <AnimatePresence>
         {activeLightbox && (
@@ -941,15 +936,18 @@ export const CaseStudyPage: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-8"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-8"
           >
             {/* Top Lightbox Bar */}
-            <div className="flex items-center justify-between text-xs font-mono-code text-[#8E8E93] pb-4">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between text-xs font-mono-code text-[#8E8E93] pb-4 border-b border-white/10">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-[#C5FF45]" />
                 <span className="text-[#F5F3EF] font-bold">{activeLightbox.title}</span>
                 <span className="text-white/20">|</span>
-                <span>{project.title}</span>
+                <span className="text-[#8E8E93]">{project.title}</span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#1C1C1C] border border-white/10 text-[#C5FF45]">
+                  {activeLightbox.viewportType === 'mobile' ? '360 × 800 [MOBILE VIEW]' : '1440 × 800 [WEB VIEW]'}
+                </span>
               </div>
 
               <button
@@ -963,15 +961,48 @@ export const CaseStudyPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Central Large Mockup */}
-            <div className="flex-grow flex items-center justify-center my-4 overflow-hidden rounded-2xl border border-white/15 bg-[#121212] shadow-2xl max-w-5xl mx-auto w-full">
-              <div className="w-full h-full min-h-[420px] sm:min-h-[540px]">
-                <ProjectMockup type={activeLightbox.mockupKind} accentColor={project.accentColor} />
-              </div>
+            {/* Central Mockup Viewport */}
+            <div className="flex-grow flex items-center justify-center my-4 overflow-hidden">
+              {activeLightbox.viewportType === 'mobile' ? (
+                // 360 x 800 Vertical Rectangle Mobile Phone Frame
+                <div className="relative aspect-mobile-viewport max-w-[360px] sm:max-w-[380px] h-full max-h-[75vh] rounded-[36px] border-4 border-[#252525] bg-[#121212] shadow-2xl overflow-hidden flex flex-col justify-between p-3.5">
+                  <div className="flex items-center justify-between px-2 pt-1 pb-2 font-mono-code text-[10px] text-[#8E8E93] shrink-0">
+                    <span className="font-bold text-[#F5F3EF]">9:41</span>
+                    <div className="w-16 h-3 rounded-full bg-black border border-white/10 flex items-center justify-center">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#C5FF45]" />
+                    </div>
+                    <span className="text-[#C5FF45] font-bold text-[9px]">360 × 800</span>
+                  </div>
+                  <div className="w-full flex-grow overflow-hidden rounded-2xl bg-[#0A0B0D]">
+                    <ProjectMockup type={activeLightbox.mockupKind} accentColor={project.accentColor} />
+                  </div>
+                  <div className="w-16 h-1 bg-white/40 rounded-full mx-auto mt-2" />
+                </div>
+              ) : (
+                // 1440 x 800 Horizontal Rectangle Web Workstation Frame
+                <div className="relative aspect-web-viewport max-w-5xl w-full max-h-[75vh] rounded-2xl border border-white/15 bg-[#121212] shadow-2xl overflow-hidden flex flex-col justify-between">
+                  <div className="px-4 py-2.5 bg-[#161616] border-b border-white/10 flex items-center justify-between font-mono-code text-xs text-[#8E8E93] shrink-0">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
+                      <span className="ml-2 text-[11px] text-[#8E8E93] hidden sm:inline">
+                        https://project-spec.view/1440x800
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded bg-[#202020] border border-white/10 text-[10px] text-[#38BDF8] font-bold">
+                      1440 × 800 [WEB VIEW]
+                    </span>
+                  </div>
+                  <div className="w-full flex-grow overflow-hidden bg-[#0A0B0D]">
+                    <ProjectMockup type={activeLightbox.mockupKind} accentColor={project.accentColor} />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Lightbox Caption */}
-            <div className="text-center max-w-2xl mx-auto pt-2">
+            <div className="text-center max-w-2xl mx-auto pt-2 border-t border-white/10">
               <p className="font-sans-main text-sm text-[#8E8E93]">
                 {activeLightbox.caption}
               </p>

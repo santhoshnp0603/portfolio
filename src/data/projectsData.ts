@@ -38,6 +38,7 @@ export interface GalleryItem {
   caption: string;
   type: 'full-width' | 'desktop-grid' | 'mobile-mockup' | 'system-tokens' | 'interaction';
   mockupKind: 'saas' | 'health' | 'edtech' | 'robotics' | 'luxury' | 'fintech' | 'tokens' | 'wireframe';
+  viewportType?: 'mobile' | 'web';
 }
 
 export interface ProjectDetail {
@@ -69,6 +70,11 @@ export interface ProjectDetail {
   achievements: string[];
   testimonial: { quote: string; author: string; role: string };
   mockupType: 'saas' | 'health' | 'edtech' | 'robotics' | 'luxury' | 'fintech';
+  platformType: 'web' | 'mobile';
+  previewImage: string;
+  webScreenshot?: string;
+  mobileScreenshot?: string;
+  browserUrl?: string;
 }
 
 export const allProjects: ProjectDetail[] = [
@@ -247,6 +253,11 @@ export const allProjects: ProjectDetail[] = [
       role: 'VP of Product, Chronos Systems',
     },
     mockupType: 'saas',
+    platformType: 'web',
+    previewImage: 'mockup://chronos-ai/preview',
+    webScreenshot: 'mockup://chronos-ai/desktop',
+    mobileScreenshot: 'mockup://chronos-ai/mobile',
+    browserUrl: 'https://chronos-ai.cloud/cluster-01',
   },
   {
     id: 'aura-health',
@@ -392,6 +403,11 @@ export const allProjects: ProjectDetail[] = [
       role: 'Chief Medical Officer, Aura Health',
     },
     mockupType: 'health',
+    platformType: 'web',
+    previewImage: 'mockup://aura-health/preview',
+    webScreenshot: 'mockup://aura-health/desktop',
+    mobileScreenshot: 'mockup://aura-health/mobile',
+    browserUrl: 'https://aurahealth.med/icu-telemetry',
   },
   {
     id: 'kognita-learn',
@@ -529,6 +545,11 @@ export const allProjects: ProjectDetail[] = [
       role: 'Co-Founder & CEO, Kognita',
     },
     mockupType: 'edtech',
+    platformType: 'mobile',
+    previewImage: 'mockup://kognita-learn/preview',
+    webScreenshot: 'mockup://kognita-learn/desktop',
+    mobileScreenshot: 'mockup://kognita-learn/mobile',
+    browserUrl: 'https://kognita.app/constellation',
   },
   {
     id: 'vanguard-robotics',
@@ -659,6 +680,11 @@ export const allProjects: ProjectDetail[] = [
       role: 'Head of Growth, Vanguard Robotics',
     },
     mockupType: 'robotics',
+    platformType: 'web',
+    previewImage: 'mockup://vanguard-robotics/preview',
+    webScreenshot: 'mockup://vanguard-robotics/desktop',
+    mobileScreenshot: 'mockup://vanguard-robotics/mobile',
+    browserUrl: 'https://vanguardrobotics.io/mod-06',
   },
   {
     id: 'solstice-atelier',
@@ -789,6 +815,11 @@ export const allProjects: ProjectDetail[] = [
       role: 'Creative Director, Sólstice Atelier',
     },
     mockupType: 'luxury',
+    platformType: 'web',
+    previewImage: 'mockup://solstice-atelier/preview',
+    webScreenshot: 'mockup://solstice-atelier/desktop',
+    mobileScreenshot: 'mockup://solstice-atelier/mobile',
+    browserUrl: 'https://solstice-atelier.ch/piece-unique',
   },
   {
     id: 'vaultx-neobank',
@@ -919,6 +950,11 @@ export const allProjects: ProjectDetail[] = [
       role: 'Co-Founder & CTO, VaultX',
     },
     mockupType: 'fintech',
+    platformType: 'mobile',
+    previewImage: 'mockup://vaultx-neobank/preview',
+    webScreenshot: 'mockup://vaultx-neobank/desktop',
+    mobileScreenshot: 'mockup://vaultx-neobank/mobile',
+    browserUrl: 'https://vaultx.finance/treasury',
   },
 ];
 

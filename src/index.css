@@ -86,6 +86,72 @@
   animation-play-state: paused;
 }
 
+/* Multi-row rolling marquee animations (Studio Aton style) */
+@keyframes marquee-roll-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-roll-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.marquee-track-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-roll-left var(--marquee-speed, 48s) linear infinite;
+  will-change: transform;
+}
+
+.marquee-track-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-roll-right var(--marquee-speed, 48s) linear infinite;
+  will-change: transform;
+}
+
+.marquee-track-left.is-paused,
+.marquee-track-right.is-paused {
+  animation-play-state: paused !important;
+}
+
+.marquee-row-hover:hover .marquee-track-left,
+.marquee-row-hover:hover .marquee-track-right {
+  animation-play-state: paused;
+}
+
+/* Accessibility: respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .marquee-track-left,
+  .marquee-track-right {
+    animation: none !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  .animate-pulse-subtle {
+    animation: none !important;
+  }
+}
+
+/* Specific 360 x 800 (Mobile) and 1440 x 800 (Web) viewport aspect ratios */
+.aspect-mobile-viewport {
+  aspect-ratio: 360 / 800;
+}
+
+.aspect-web-viewport {
+  aspect-ratio: 1440 / 800;
+}
+
 /* Pulsing radar dot */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
